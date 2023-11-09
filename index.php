@@ -1,8 +1,3 @@
-<?php
-include("users.php");
-$sql = "SELECT * FROM empleados";
-$result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +7,12 @@ $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
     <title>Document</title>
 </head>
 <body>
+<?php
+include("users.php");
+$sql = "SELECT * FROM empleados";
+$result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+?>
+
     <h2>Usuarios</h2>
     <table>
         <tr>
