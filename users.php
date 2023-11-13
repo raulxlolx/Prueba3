@@ -1,4 +1,5 @@
 <?php
+
 $conn = new mysqli("192.168.1.248", "root", "3216", "empresa");
 
 if ($conn->connect_error) {
