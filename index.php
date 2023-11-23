@@ -1,3 +1,65 @@
+<?php
+// Datos de conexión a la base de datos
+$host = "localhost"; // Cambia a la dirección de tu servidor MySQL
+$usuario = "base";
+$contrasena = "3216";
+$base_de_datos = "Trabajadores";
+
+// Conexión a la base de datos
+$conn = new mysqli($host, $usuario, $contrasena, $base_de_datos);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Error en la conexión: " . $conn->connect_error);
+}
+
+// Consulta SQL para obtener datos de la tabla
+$sql = "SELECT * FROM usuarios"; // Cambia 'usuarios' al nombre de tu tabla
+$result = $conn->query($sql);
+
+// Procesar y mostrar los datos en una tabla
+if ($result->num_rows > 0) {
+    echo "<table>";
+    echo "<tr><th>Nombre</th><th>Correo</th><th>Acciones</th></tr>";
+    while ($fila = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $fila["nombre"] . "</td>";
+        echo "<td>" . $fila["correo"] . "</td>";
+        echo "<td><a href='?id=" . $fila["id"] . "&action=delete'>Eliminar</a> | <a href='editar.php?id=" . $fila["id"] . "'>Editar</a></td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    echo "No se encontraron resultados en la tabla.";
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'];
+    $correo = $_POST['correo'];
+    $sql = "INSERT INTO usuarios (nombre, correo) VALUES ('$nombre', '$correo')";
+    if ($conn->query($sql) === true) {
+        echo "Nuevo registro creado correctamente.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+if (isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $id = $_GET['id'];
+    $sql = "DELETE FROM usuarios WHERE id = $id";
+    if ($conn->query($sql) === true) {
+        echo "Registro eliminado correctamente.";
+        // Redireccionar a la página actual para evitar la creación de un nuevo usuario al refrescar la página
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Cerrar la conexión
+$conn->close();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,64 +112,8 @@
     </style>
 </head>
 <body>
-    <?php
-    // Datos de conexión a la base de datos
-    $host = "localhost"; // Cambia a la dirección de tu servidor MySQL
-    $usuario = "base";
-    $contrasena = "3216";
-    $base_de_datos = "Trabajadores";
-    // Conexión a la base de datos
-    $conn = new mysqli($host, $usuario, $contrasena, $base_de_datos);
-    // Verificar la conexión
-    if (!$conn) {
-        die("Error en la conexión: " . mysqli_connect_error());
-    }
-    // Consulta SQL para obtener datos de la tabla
-    $sql = "SELECT * FROM usuarios"; // Cambia 'usuarios' al nombre de tu tabla
-    $result = mysqli_query($conn, $sql);
-    // Procesar y mostrar los datos en una tabla
-    if (mysqli_num_rows($result) > 0) {
-        echo "<table>";
-        echo "<tr><th>Nombre</th><th>Correo</th><th>Acciones</th></tr>";
-        while ($fila = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $fila["nombre"] . "</td>";
-            echo "<td>" . $fila["correo"] . "</td>";
-            echo "<td><a href='?id=" . $fila["id"] . "&action=delete'>Eliminar</a> | <a href='editar.php?id=" . $fila["id"] . "'>Editar</a></td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-    } else {
-        echo "No se encontraron resultados en la tabla.";
-    }
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $nombre = $_POST['nombre'];
-        $correo = $_POST['correo'];
-        $sql = "INSERT INTO usuarios (nombre, correo) VALUES ('$nombre', '$correo')";
-        if (mysqli_query($conn, $sql)) {
-            echo "Nuevo registro creado correctamente.";
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
-    }
-    if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
-        $id = $_GET['id'];
-        $sql = "DELETE FROM usuarios WHERE id = $id";
-        if (mysqli_query($conn, $sql)) {
-            echo "Registro eliminado correctamente.";
-            // Redireccionar a la página actual para evitar la creación de un nuevo usuario al refrescar la página
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
-    }
-
-    // Cerrar la conexión
-    
-    ?>   
-    <form method="post" action="<?php echo $_SERVER ['PHP_SELF']; ?>" align="center">
-     <h2>Agregar nuevo usuario</h2>   
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" align="center">
+        <h2>Agregar nuevo usuario</h2>
         <label for="nombre">Nombre:</label><br>
         <input type="text" name="nombre" id="nombre"><br>
         <br>
@@ -118,12 +124,12 @@
     </form>
 
     <?php
-    if(isset($_GET['edit'])) {
+    if (isset($_GET['edit'])) {
         $id = $_GET['edit'];
         $sql = "SELECT * FROM usuarios WHERE id = $id";
-        $result = mysqli_query($conn, $sql);
-        if(mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
             $nombre = $row['nombre'];
             $correo = $row['correo'];
             echo "<h2>Editar usuario</h2>";
@@ -142,18 +148,17 @@
         }
     }
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
         $correo = $_POST['correo'];
         $sql = "UPDATE usuarios SET nombre='$nombre', correo='$correo' WHERE id=$id";
-        if(mysqli_query($conn, $sql)) {
+        if ($conn->query($sql) === true) {
             echo "Usuario actualizado correctamente.";
         } else {
-            echo "Error al actualizar el usuario: " . mysqli_error($conn);
+            echo "Error al actualizar el usuario: " . $conn->error;
         }
     }
-    mysqli_close($conn);
     ?>
 </body>
 </html>
