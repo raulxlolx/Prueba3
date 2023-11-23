@@ -47,7 +47,7 @@ if (!$result) {
             <td><?php echo $row['edad']; ?></td>
             <td><?php echo $row['categoria']; ?></td>
             <td><?php echo $row['salario']; ?></td>
-            <td><a href="?eliminar=<?php echo $row['id'] ?>"></a></td>
+            <td><a href="?eliminar=<?php echo $row['id'] ?>">Eliminar</a></td>
             
         </tr>
     <?php } ?>
