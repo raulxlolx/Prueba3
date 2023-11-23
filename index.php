@@ -106,12 +106,12 @@
     // Cerrar la conexión
     mysqli_close($conn);
     ?>   
-    <form method="post" action="<?php echo $_SERVER ['PHP_SELF']; ?>" aling="center">
+    <form method="post" action="<?php echo $_SERVER ['PHP_SELF']; ?>" align="center">
      <h2>Agregar nuevo usuario</h2>   
-        <label for ="nombre">Nombre:</label><br>
+        <label for="nombre">Nombre:</label><br>
         <input type="text" name="nombre" id="nombre"><br>
         <br>
-        <label for ="correo">Correo:</label><br>
+        <label for="correo">Correo:</label><br>
         <input type="text" name="correo" id="correo"><br>
         <br>
         <input type="submit" value="Agregar">
