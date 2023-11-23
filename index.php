@@ -1,5 +1,3 @@
-<?php
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,15 +72,25 @@
         while ($fila = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>" . $fila["nombre"] . "</td>";
-            echo "<td>" . $fila["email"] . "</td>";
-            echo "<td><a href='?id=" . $fila["id"] . "'>Eliminar</a> | <a href='editar.php?id=" . $fila["id"] . "'>Editar</a></td>";
+            echo "<td>" . $fila["correo"] . "</td>";
+            echo "<td><a href='?id=" . $fila["id"] . "&action=delete'>Eliminar</a> | <a href='editar.php?id=" . $fila["id"] . "'>Editar</a></td>";
             echo "</tr>";
         }
         echo "</table>";
     } else {
         echo "No se encontraron resultados en la tabla.";
     }
-    if(isset($_GET['id'])) {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $nombre = $_POST['nombre'];
+        $correo = $_POST['correo'];
+        $sql = "INSERT INTO usuarios (nombre, correo) VALUES ('$nombre', '$correo')";
+        if (mysqli_query($conn, $sql)) {
+            echo "Nuevo registro creado correctamente.";
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+    }
+    if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
         $id = $_GET['id'];
         $sql = "DELETE FROM usuarios WHERE id = $id";
         if (mysqli_query($conn, $sql)) {
@@ -90,16 +98,6 @@
             // Redireccionar a la página actual para evitar la creación de un nuevo usuario al refrescar la página
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }
-    }
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $nombre = $_POST['nombre'];
-        $correo = $_POST['email'];
-        $sql = "INSERT INTO usuarios (nombre, email) VALUES ('$nombre', '$correo')";
-        if (mysqli_query($conn, $sql)) {
-            echo "Nuevo registro creado correctamente.";
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
@@ -114,7 +112,7 @@
         <input type="text" name="nombre" id="nombre"><br>
         <br>
         <label for ="correo">Correo:</label><br>
-        <input type="text" name="email" id="email"><br>
+        <input type="text" name="correo" id="correo"><br>
         <br>
         <input type="submit" value="Agregar">
     </form>
@@ -127,7 +125,7 @@
         if(mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $nombre = $row['nombre'];
-            $correo = $row['email'];
+            $correo = $row['correo'];
             echo "<h2>Editar usuario</h2>";
             echo "<form method='post' action='editar.php'>";
             echo "<input type='hidden' name='id' value='$id'>";
@@ -135,7 +133,7 @@
             echo "<input type='text' name='nombre' id='nombre' value='$nombre'><br>";
             echo "<br>";
             echo "<label for='correo'>Correo:</label><br>";
-            echo "<input type='text' name='correo' id='email' value='$correo'><br>";
+            echo "<input type='text' name='correo' id='correo' value='$correo'><br>";
             echo "<br>";
             echo "<input type='submit' value='Guardar'>";
             echo "</form>";
@@ -147,7 +145,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
-        $correo = $_POST['email'];
+        $correo = $_POST['correo'];
         $sql = "UPDATE usuarios SET nombre='$nombre', correo='$correo' WHERE id=$id";
         if(mysqli_query($conn, $sql)) {
             echo "Usuario actualizado correctamente.";
