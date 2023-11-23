@@ -2,58 +2,76 @@
 <html>
 <head>
     <title>Tabla de usuarios</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        h2 {
-            margin-top: 20px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        form {
-            margin-top: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: blue;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
+        <style>
+         body {
+    font-family: 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e6e6e6; /* Cambia el color de fondo */
+}
+
+h2 {
+    margin-top: 30px;
+    color: #990000; /* Cambia el color del título */
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 10px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+th, td {
+    border: 2px dashed #666;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #ffd700;
+    color: #660066; /* Cambia el color del encabezado de la tabla */
+}
+
+tr:nth-child(even) {
+    background-color: #cccccc;
+}
+
+form {
+    margin-top: 30px;
+    text-align: center;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #336699; /* Cambia el color de las etiquetas */
+}
+
+input[type="text"] {
+    width: 60%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 2px solid #336699;
+}
+
+input[type="submit"] {
+    padding: 12px 24px;
+    background-color: #ff4500;
+    color: white;
+    border: 2px solid #cc3300;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #cc3300;
+}
+
+        </style>
+
+    </head>
 <body>
     <?php
-    // Enable error reporting
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
     // Datos de conexión a la base de datos
     $host = "localhost"; // Cambia a la dirección de tu servidor MySQL
     $usuario = "base";
@@ -95,8 +113,7 @@
     }
     if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
         $id = $_GET['id'];
-        $sql = "DELETE FROM usuarios WHERE id = '$id'";
-
+        $sql = "DELETE FROM usuarios WHERE id = $id";
         if (mysqli_query($conn, $sql)) {
             echo "Registro eliminado correctamente.";
             // Redireccionar a la página actual para evitar la creación de un nuevo usuario al refrescar la página
