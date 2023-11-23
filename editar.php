@@ -36,9 +36,9 @@
     <?php
     // Datos de conexión a la base de datos
     $host = "localhost"; // Cambia a la dirección de tu servidor MySQL
-    $usuario = "kini";
-    $contrasena = "1234";
-    $base_de_datos = "Trabajadores3";
+    $usuario = "base";
+    $contrasena = "3216";
+    $base_de_datos = "usuarios";
     // Conexión a la base de datos
     $conn = new mysqli($host, $usuario, $contrasena, $base_de_datos);
     // Verificar la conexión
@@ -54,7 +54,7 @@
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Obtener los nuevos datos del usuario
             $nuevoNombre = $_POST['nombre'];
-            $nuevoCorreo = $_POST['correo'];
+            $nuevoCorreo = $_POST['email'];
 
             // Actualizar los datos del usuario en la base de datos
             $sql = "UPDATE usuarios SET nombre = '$nuevoNombre', correo = '$nuevoCorreo' WHERE id = $idUsuario";
