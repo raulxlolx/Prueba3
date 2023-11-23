@@ -1,4 +1,3 @@
-
 <?php
 $server = "127.0.0.1";
 $user = "base";
@@ -20,6 +19,13 @@ if (!$result) {
     die("Error en la consulta: " . $conn->error);
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usuarios</title>
+</head>
+<body>
 
 <h2>Usuarios</h2>
 
@@ -70,11 +76,9 @@ if (!$result) {
 <input name="salario" type="number"><br>
 <input type="submit" value="Enviar">
 
-
-
 </form>
-<?php 
 
+<?php 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id= $_POST['id'];
     $nombre = $_POST['nombre'];
@@ -83,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $categoria = $_POST['categoria'];
     $salario = $_POST['salario'];
 
-    $sql = "INSERT INTO empleados (id,nombre, apellido, edad, categoria, salario) VALUES ('$id','$nombre', '$apellido', '$edad', '$categoria', '$salario')";
+    $sql = "INSERT INTO empleados (id, nombre, apellido, edad, categoria, salario) VALUES ('$id', '$nombre', '$apellido', '$edad', '$categoria', '$salario')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Nuevo usuario agregado";
@@ -91,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
 ?>
 
 <?php
@@ -129,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $idEditar = $_POST['id_editar'];
 
-    
     $sql = "SELECT * FROM empleados WHERE id = '$idEditar'";
     $result = $conn->query($sql);
 
@@ -180,10 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-</body>
-</html>
-
-
 
 </body>
 </html>
