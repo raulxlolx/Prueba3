@@ -22,7 +22,7 @@
         }
         input[type="submit"] {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: blue;
             color: white;
             border: none;
             cursor: pointer;
