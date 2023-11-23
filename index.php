@@ -51,6 +51,9 @@
 </head>
 <body>
     <?php
+    // Enable error reporting
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
     // Datos de conexión a la base de datos
     $host = "localhost"; // Cambia a la dirección de tu servidor MySQL
     $usuario = "base";
