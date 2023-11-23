@@ -85,7 +85,7 @@ if (!$result) {
 <h2>Editar empleado</h2>
 
 <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <input type="hidden" name="id" value="<?php echo $empleado['id']; ?>">
+    <input type="" name="id" value="<?php echo $empleado['id']; ?>">
     <label for="nombre">Nombre:</label>
     <input name="nombre" type="text" value="<?php echo $empleado['nombre']; ?>">
     <br>
@@ -121,8 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (isset($_GET['editar'])) {
-    $idEmpleadoEditar = $_GET['editar'];
+if (isset($_GET['actualizar'])) {
+    $idEmpleadoEditar = $_GET['id'];
 
     // Obtener los datos del empleado a partir de su ID
     $sql = "SELECT * FROM empleados WHERE id = '$idEmpleadoEditar'";
