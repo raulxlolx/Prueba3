@@ -104,7 +104,7 @@
     }
 
     // Cerrar la conexión
-    mysqli_close($conn);
+    
     ?>   
     <form method="post" action="<?php echo $_SERVER ['PHP_SELF']; ?>" align="center">
      <h2>Agregar nuevo usuario</h2>   
@@ -153,6 +153,7 @@
             echo "Error al actualizar el usuario: " . mysqli_error($conn);
         }
     }
+    mysqli_close($conn);
     ?>
 </body>
 </html>
