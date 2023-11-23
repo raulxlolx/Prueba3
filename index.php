@@ -95,7 +95,8 @@
     }
     if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
         $id = $_GET['id'];
-        $sql = "DELETE FROM usuarios WHERE id = $id";
+        $sql = "DELETE FROM usuarios WHERE id = '$id'";
+
         if (mysqli_query($conn, $sql)) {
             echo "Registro eliminado correctamente.";
             // Redireccionar a la página actual para evitar la creación de un nuevo usuario al refrescar la página
