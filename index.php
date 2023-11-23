@@ -79,7 +79,7 @@ if (!$result) {
 <input name="salario" type="number"><br>
 <input type="submit" value="Enviar">
 
-</form>ç
+</form>
 
 
 <h2>Editar empleado</h2>
