@@ -55,7 +55,7 @@
     $host = "localhost"; // Cambia a la dirección de tu servidor MySQL
     $usuario = "base";
     $contrasena = "3216";
-    $base_de_datos = "usuarios";
+    $base_de_datos = "Trabajadores";
     // Conexión a la base de datos
     $conn = new mysqli($host, $usuario, $contrasena, $base_de_datos);
     // Verificar la conexión
