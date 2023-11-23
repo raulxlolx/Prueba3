@@ -97,6 +97,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+
+
+<h2>Eliminar empleado</h2>
+
+<form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <label for="id_eliminar">Ingrese el ID del empleado a eliminar:</label>
+    <input name="id_eliminar" type="number">
+    <br>
+    <input type="submit" value="Eliminar">
+</form>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $idEliminar = $_POST['id_eliminar'];
@@ -110,15 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
-<h2>Eliminar empleado</h2>
-
-<form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <label for="id_eliminar">Ingrese el ID del empleado a eliminar:</label>
-    <input name="id_eliminar" type="number">
-    <br>
-    <input type="submit" value="Eliminar">
-</form>
 
 <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <h2>Editar empleado</h2>
