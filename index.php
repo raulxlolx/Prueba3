@@ -48,6 +48,7 @@ if (!$result) {
             <td><?php echo $row['categoria']; ?></td>
             <td><?php echo $row['salario']; ?></td>
             <td><a href="?eliminar=<?php echo $row['id'] ?>">Eliminar</a></td>
+       
             
         </tr>
     <?php } ?>
@@ -78,6 +79,28 @@ if (!$result) {
 <input name="salario" type="number"><br>
 <input type="submit" value="Enviar">
 
+</form>ç
+
+
+<h2>Editar empleado</h2>
+
+<form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <input type="hidden" name="id" value="<?php echo $empleado['id']; ?>">
+    <label for="nombre">Nombre:</label>
+    <input name="nombre" type="text" value="<?php echo $empleado['nombre']; ?>">
+    <br>
+    <label for="apellido">Apellido:</label>
+    <input type="text" name="apellido" value="<?php echo $empleado['apellido']; ?>">
+    <br>
+    <label for="edad">Edad:</label>
+    <input name="edad" type="number" value="<?php echo $empleado['edad']; ?>">
+    <br>
+    <label for="categoria">Categoría:</label>
+    <input name="categoria" type="text" value="<?php echo $empleado['categoria']; ?>">
+    <br>
+    <label for="salario">Salario:</label>
+    <input name="salario" type="number" value="<?php echo $empleado['salario']; ?>"><br>
+    <input type="submit" name="actualizar" value="Actualizar">
 </form>
 
 <?php 
@@ -98,15 +121,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (isset($_GET['eliminar'])) {
-    $ideliminar = $_GET['eliminar'];
-    $sqldelete = "DELETE FROM empleados WHERE id = $ideliminar";
-    $resultdelete = $conn->query($sqldelete);
-    if (!$resultdelete) {
-        die("Error al eliminar: " . $conn->error);
+if (isset($_GET['editar'])) {
+    $idEmpleadoEditar = $_GET['editar'];
+
+    // Obtener los datos del empleado a partir de su ID
+    $sql = "SELECT * FROM empleados WHERE id = '$idEmpleadoEditar'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $empleado = $result->fetch_assoc();
+    } else {
+        echo "No se encontró el empleado con el ID: $idEmpleadoEditar";
     }
 }
+
+// Actualizar los datos del empleado
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['actualizar'])) {
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $edad = $_POST['edad'];
+    $categoria = $_POST['categoria'];
+    $salario = $_POST['salario'];
+
+    $sql = "UPDATE empleados SET nombre = '$nombre', apellido = '$apellido', edad = '$edad', categoria = '$categoria', salario = '$salario' WHERE id = '$id'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Empleado actualizado correctamente";
+    } else {
+        echo "Error al actualizar el empleado: " . $conn->error;
+    }
+}
+
 ?>
+
+
 
 
 
