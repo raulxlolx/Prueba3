@@ -72,30 +72,45 @@ input[type="submit"]:hover {
     </head>
 <body>
     <?php
+
+
     // Datos de conexión a la base de datos
     $host = "localhost"; // Cambia a la dirección de tu servidor MySQL
     $usuario = "base";
     $contrasena = "3216";
-    $base_de_datos = "Trabajadores3";
+    
+    // Habilitar el reporte de errores
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    
     // Conexión a la base de datos
     $conn = new mysqli($host, $usuario, $contrasena, $base_de_datos);
+    
     // Verificar la conexión
-    if (!$conn) {
-        die("Error en la conexión: " . mysqli_connect_error());
+    if ($conn->connect_error) {
+        die("Error en la conexión: " . $conn->connect_error);
     }
+    
     // Consulta SQL para obtener datos de la tabla
     $sql = "SELECT * FROM usuarios"; // Cambia 'usuarios' al nombre de tu tabla
-    $result = mysqli_query($conn, $sql);
+    $result = $conn->query($sql);
+    
     // Procesar y mostrar los datos en una tabla
-    if (mysqli_num_rows($result) > 0) {
+    if ($result->num_rows > 0) {
         echo "<table>";
         echo "<tr><th>Nombre</th><th>Correo</th><th>Acciones</th></tr>";
-        while ($fila = mysqli_fetch_assoc($result)) {
+        while ($fila = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>" . $fila["nombre"] . "</td>";
             echo "<td>" . $fila["correo"] . "</td>";
             echo "<td><a href='?id=" . $fila["id"] . "&action=delete'>Eliminar</a> | <a href='editar.php?id=" . $fila["id"] . "'>Editar</a></td>";
             echo "</tr>";
+        }
+    } else {
+        echo "No se encontraron registros.";
+    }
+    
+    $conn->close();
         }
         echo "</table>";
     } else {
