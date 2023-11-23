@@ -57,13 +57,13 @@
             $nuevoCorreo = $_POST['correo'];
 
             // Verificar si el nombre o el correo han cambiado
-            $sql = "SELECT nombre, correo FROM usuarios WHERE id = $idUsuario";
+            $sql = "SELECT nombre, correo FROM Usuarios WHERE id = $idUsuario";
             $result = mysqli_query($conn, $sql);
             $fila = mysqli_fetch_assoc($result);
 
             if ($nuevoNombre != $fila['nombre'] || $nuevoCorreo != $fila['correo']) {
                 // Actualizar los datos del usuario en la base de datos
-                $sql = "UPDATE usuarios SET nombre = '$nuevoNombre', correo = '$nuevoCorreo' WHERE id = $idUsuario";
+                $sql = "UPDATE Usuarios SET nombre = '$nuevoNombre', correo = '$nuevoCorreo' WHERE id = $idUsuario";
                 if (mysqli_query($conn, $sql)) {
                     echo "Usuario editado correctamente";
                     // Redirigir a index.php
@@ -77,7 +77,7 @@
             }
         } else {
             // Consultar los datos del usuario a editar
-            $sql = "SELECT * FROM usuarios WHERE id = $idUsuario";
+            $sql = "SELECT * FROM Usuarios WHERE id = $idUsuario";
             $result = mysqli_query($conn, $sql);
             $fila = mysqli_fetch_assoc($result);
 

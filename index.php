@@ -63,7 +63,7 @@
         die("Error en la conexión: " . mysqli_connect_error());
     }
     // Consulta SQL para obtener datos de la tabla
-    $sql = "SELECT * FROM usuarios"; // Cambia 'usuarios' al nombre de tu tabla
+    $sql = "SELECT * FROM Usuarios"; // Cambia 'usuarios' al nombre de tu tabla
     $result = mysqli_query($conn, $sql);
     // Procesar y mostrar los datos en una tabla
     if (mysqli_num_rows($result) > 0) {
@@ -83,7 +83,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nombre = $_POST['nombre'];
         $correo = $_POST['correo'];
-        $sql = "INSERT INTO usuarios (nombre, correo) VALUES ('$nombre', '$correo')";
+        $sql = "INSERT INTO Usuarios (nombre, correo) VALUES ('$nombre', '$correo')";
         if (mysqli_query($conn, $sql)) {
             echo "Nuevo registro creado correctamente.";
         } else {
@@ -92,7 +92,7 @@
     }
     if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == 'delete') {
         $id = $_GET['id'];
-        $sql = "DELETE FROM usuarios WHERE id = $id";
+        $sql = "DELETE FROM Usuarios WHERE id = $id";
         if (mysqli_query($conn, $sql)) {
             echo "Registro eliminado correctamente.";
             // Redireccionar a la página actual para evitar la creación de un nuevo usuario al refrescar la página
@@ -120,7 +120,7 @@
     <?php
     if(isset($_GET['edit'])) {
         $id = $_GET['edit'];
-        $sql = "SELECT * FROM usuarios WHERE id = $id";
+        $sql = "SELECT * FROM Usuarios WHERE id = $id";
         $result = mysqli_query($conn, $sql);
         if(mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
@@ -146,7 +146,7 @@
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
         $correo = $_POST['correo'];
-        $sql = "UPDATE usuarios SET nombre='$nombre', correo='$correo' WHERE id=$id";
+        $sql = "UPDATE Usuarios SET nombre='$nombre', correo='$correo' WHERE id=$id";
         if(mysqli_query($conn, $sql)) {
             echo "Usuario actualizado correctamente.";
         } else {
